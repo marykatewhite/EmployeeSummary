@@ -1,0 +1,25 @@
+{
+  "name": "employeesummary",
+  "version": "1.0.0",
+  "description": "A Node CLI that takes in information about employees and generates an HTML webpage that displays summaries for each person.",
+  "main": "app.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marykatewhite/EmployeeSummary.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marykatewhite/EmployeeSummary/issues"
+  },
+  "homepage": "https://github.com/marykatewhite/EmployeeSummary#readme",
+  "dependencies": {
+    "jest": "^24.9.0"
+  }
+}
