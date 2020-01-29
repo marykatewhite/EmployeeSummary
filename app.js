@@ -110,10 +110,13 @@ function getIntern() {
 }
 
 function compilePage() {
+  var engineergroup;
+  var interncards;
+
   var i;
   for (i = 0; i < team.length; i++) {
     if (team[i] === "Engineer") {
-      let engineercards = `<div class="card" style="width: 18rem;">
+      let engineercard = `<div class="card" style="width: 18rem;">
             <div class="card-header">
             Engineer: ${team[i].name}
             </div>
@@ -124,10 +127,9 @@ function compilePage() {
             <li class="list-group-item">Office: ${team[i].office}</li>
             </ul>
             </div>`;
-      engineercards.push(engineercard);
-      return engineercards;
+      engineergroup.push(engineercard);
+      return engineergroup;
     } else if (team[i].role === "Intern") {
-      let interncards = {};
       let interncard = `<div class="card" style="width: 18rem;">
             <div class="card-header">
             Intern: ${team[i].name}
@@ -166,9 +168,7 @@ function compilePage() {
                         <li class="list-group-item">ID: ${team[0].id}</li>
                         <li class="list-group-item">Email: ${team[0].email}</li>
                         <li class="list-group-item">Role: ${team[0].role}</li>
-                        <li class="list-group-item">Office: ${
-                          team[0].office
-                        }</li>
+                        <li class="list-group-item">Office: ${team[0].office}</li>
                     </ul>
                 </div>
             </div>
@@ -177,14 +177,14 @@ function compilePage() {
 
         <div class="container">
             <div class="row" id="engineerrow">
-            ${JSON.stringify(engineercards)}
+            ${engineergroup}
             </div>
         </div>
 
 
         <div class="container">
             <div class="row" id="internrow">
-            ${JSON.stringify(interncards)}
+            ${interncards}
             </div>
         </div>
 
@@ -203,7 +203,7 @@ function compilePage() {
 
     return htmldoc;
   }
-};
+}
 // var i;
 // for (i = 0; i < team.length; i++) {
 //   if (team[i] === "Engineer") {
