@@ -21,6 +21,7 @@ function repeatQuery() {
       if (answers.repeat === "Yes") {
         getRole();
       } else if (answers.repeat === "No") {
+        console.log(team);
         printTeam();
       }
     })
@@ -110,12 +111,11 @@ function getIntern() {
 }
 
 function compilePage() {
-  var engineergroup;
-  var interncards;
-
+  let engineercards = '';
+  let interncards = '';
   var i;
   for (i = 0; i < team.length; i++) {
-    if (team[i] === "Engineer") {
+    if (team[i].role === "Engineer") {
       let engineercard = `<div class="card" style="width: 18rem;">
             <div class="card-header">
             Engineer: ${team[i].name}
@@ -124,11 +124,11 @@ function compilePage() {
             <li class="list-group-item">ID: ${team[i].id}</li>
             <li class="list-group-item">Email: ${team[i].email}</li>
             <li class="list-group-item">Role: ${team[i].role}</li>
-            <li class="list-group-item">Office: ${team[i].office}</li>
+            <li class="list-group-item">Github: ${team[i].github}</li>
             </ul>
             </div>`;
-      engineergroup.push(engineercard);
-      return engineergroup;
+      var engineergroup = engineercards.concat(engineercard);
+    
     } else if (team[i].role === "Intern") {
       let interncard = `<div class="card" style="width: 18rem;">
             <div class="card-header">
@@ -138,14 +138,15 @@ function compilePage() {
             <li class="list-group-item">ID: ${team[i].id}</li>
             <li class="list-group-item">Email: ${team[i].email}</li>
             <li class="list-group-item">Role: ${team[i].role}</li>
-            <li class="list-group-item">Office: ${team[i].office}</li>
+            <li class="list-group-item">School: ${team[i].school}</li>
             </ul>
             </div>`;
-      interncards.push(interncard);
-      return interncards;
+      var interngroup = interncards.concat(interncard);
+      
     }
+  }
 
-    let htmldoc = `<!DOCTYPE html>
+  let htmldoc = `<!DOCTYPE html>
     <html lang="en">
     
     <head>
@@ -184,7 +185,7 @@ function compilePage() {
 
         <div class="container">
             <div class="row" id="internrow">
-            ${interncards}
+            ${interngroup}
             </div>
         </div>
 
@@ -201,9 +202,9 @@ function compilePage() {
     </body>
     </html>`;
 
-    return htmldoc;
-  }
+  return htmldoc;
 }
+
 // var i;
 // for (i = 0; i < team.length; i++) {
 //   if (team[i] === "Engineer") {
@@ -290,7 +291,7 @@ function initMananger() {
       },
       {
         type: "input",
-        name: "office",
+        name: "officeNumber",
         message: "Enter your office number: "
       }
     ])
@@ -300,7 +301,7 @@ function initMananger() {
         answers.name,
         answers.id,
         answers.email,
-        answers.office
+        answers.officeNumber
       );
       team.push(newmanager);
       console.log("Let's build your team!");
