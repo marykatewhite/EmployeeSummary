@@ -111,10 +111,12 @@ function getIntern() {
 }
 
 function compilePage() {
-  let engineercards = '';
-  let interncards = '';
-  var i;
-  for (i = 0; i < team.length; i++) {
+  let engineercards = "";
+  let interncards = "";
+  let engineergroup = "";
+  let interngroup = "";
+
+  for (let i = 0; i < team.length; i++) {
     if (team[i].role === "Engineer") {
       let engineercard = `<div class="card" style="width: 18rem;">
             <div class="card-header">
@@ -127,8 +129,7 @@ function compilePage() {
             <li class="list-group-item">Github: ${team[i].github}</li>
             </ul>
             </div>`;
-      var engineergroup = engineercards.concat(engineercard);
-    
+      engineergroup += engineercard;
     } else if (team[i].role === "Intern") {
       let interncard = `<div class="card" style="width: 18rem;">
             <div class="card-header">
@@ -141,8 +142,7 @@ function compilePage() {
             <li class="list-group-item">School: ${team[i].school}</li>
             </ul>
             </div>`;
-      var interngroup = interncards.concat(interncard);
-      
+      interngroup += interncard;
     }
   }
 
@@ -160,6 +160,11 @@ function compilePage() {
     
     <body>
         <div class="container">
+        <div class="row">
+                <div class="col-xs-12">
+                <h1>YOUR TEAM:</h1>
+            </div>
+            </div>
             <div class="row">
                 <div class="card" style="width: 18rem;">
                     <div class="card-header">
@@ -177,6 +182,11 @@ function compilePage() {
 
 
         <div class="container">
+        <div class="row">
+                        <div class="col-xs-12">
+                        <h2>Engineers:</h2>
+                    </div>
+                    </div>
             <div class="row" id="engineerrow">
             ${engineergroup}
             </div>
@@ -184,6 +194,11 @@ function compilePage() {
 
 
         <div class="container">
+        <div class="row">
+                        <div class="col-xs-12">
+                        <h2>Interns:</h2>
+                    </div>
+                    </div>
             <div class="row" id="internrow">
             ${interngroup}
             </div>
@@ -204,44 +219,6 @@ function compilePage() {
 
   return htmldoc;
 }
-
-// var i;
-// for (i = 0; i < team.length; i++) {
-//   if (team[i] === "Engineer") {
-//     let engineercard = `<div class="card" style="width: 18rem;">
-//           <div class="card-header">
-//           Engineer: ${team[i].name}
-//           </div>
-//           <ul class="list-group list-group-flush">
-//           <li class="list-group-item">ID: ${team[i].id}</li>
-//           <li class="list-group-item">Email: ${team[i].email}</li>
-//           <li class="list-group-item">Role: ${team[i].role}</li>
-//           <li class="list-group-item">Office: ${team[i].office}</li>
-//           </ul>
-//           </div>`;
-//     htmldoc.ready(function() {
-//       var engineerarea = htmldoc.getelementbyid(engineerrow);
-//       engineerarea.append(engineercard);
-//     });
-//   } else if (team[i].role === "Intern") {
-//     let interncard = `<div class="card" style="width: 18rem;">
-//           <div class="card-header">
-//           Intern: ${team[i].name}
-//           </div>
-//           <ul class="list-group list-group-flush">
-//           <li class="list-group-item">ID: ${team[i].id}</li>
-//           <li class="list-group-item">Email: ${team[i].email}</li>
-//           <li class="list-group-item">Role: ${team[i].role}</li>
-//           <li class="list-group-item">Office: ${team[i].office}</li>
-//           </ul>
-//           </div>`;
-//     htmldoc.ready(function() {
-//       var internarea = htmldoc.getelementbyid(internrow);
-//       internarea.append(interncard);
-//     });
-//   }
-
-//   return htmldoc;
 
 function printTeam() {
   fs.writeFile("./output/teamsheet.html", compilePage(), function(err) {
