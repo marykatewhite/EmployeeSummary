@@ -1,6 +1,10 @@
 const Manager = require("./lib/Manager");
 const Intern = require("./lib/Intern");
 const Engineer = require("./lib/Engineer");
+const bp = require("./templates/mainhtml.js");
+const ic = require("./templates/internhtml");
+const ec = require("./templates/engineerhtml");
+let firstbuild = true;
 
 const inquirer = require("inquirer");
 const fs = require("fs");
@@ -12,14 +16,14 @@ function repeatQuery() {
     .prompt([
       {
         type: "list",
-        message: "Would you like to add another?",
+        message: "Would you like to add an employee to your team?",
         name: "repeat",
         choices: ["Yes", "No"]
       }
     ])
     .then(function(answers) {
       if (answers.repeat === "Yes") {
-        getRole();
+        buildEmployee();
       } else if (answers.repeat === "No") {
         console.log(team);
         printTeam();
@@ -30,24 +34,9 @@ function repeatQuery() {
     });
 }
 
-function getEngineer() {
+function getEngineer(newemployee) {
   inquirer
     .prompt([
-      {
-        type: "input",
-        name: "name",
-        message: "Employee name: "
-      },
-      {
-        type: "input",
-        name: "id",
-        message: "Employee ID: "
-      },
-      {
-        type: "input",
-        name: "email",
-        message: "Employee email: "
-      },
       {
         type: "input",
         name: "github",
@@ -55,14 +44,14 @@ function getEngineer() {
       }
     ])
     .then(function(answers) {
-      newemployee = new Engineer(
-        answers.name,
-        answers.id,
-        answers.email,
+      newengineer = new Engineer(
+        newemployee.name,
+        newemployee.id,
+        newemployee.email,
         "Engineer",
         answers.github
       );
-      team.push(newemployee);
+      team.push(newengineer);
       repeatQuery();
     })
     .catch(function(error) {
@@ -70,24 +59,9 @@ function getEngineer() {
     });
 }
 
-function getIntern() {
+function getIntern(newemployee) {
   inquirer
     .prompt([
-      {
-        type: "input",
-        name: "name",
-        message: "Employee name: "
-      },
-      {
-        type: "input",
-        name: "id",
-        message: "Employee ID: "
-      },
-      {
-        type: "input",
-        name: "email",
-        message: "Employee email: "
-      },
       {
         type: "input",
         name: "school",
@@ -95,14 +69,14 @@ function getIntern() {
       }
     ])
     .then(function(answers) {
-      newemployee = new Intern(
-        answers.name,
-        answers.id,
-        answers.email,
+      newintern = new Intern(
+        newemployee.name,
+        newemployee.id,
+        newemployee.email,
         "Intern",
         answers.school
       );
-      team.push(newemployee);
+      team.push(newintern);
       repeatQuery();
     })
     .catch(function(error) {
@@ -111,114 +85,19 @@ function getIntern() {
 }
 
 function compilePage() {
-  let engineercards = "";
-  let interncards = "";
   let engineergroup = "";
   let interngroup = "";
 
   for (let i = 0; i < team.length; i++) {
     if (team[i].role === "Engineer") {
-      let engineercard = `<div class="card" style="width: 18rem;">
-            <div class="card-header">
-            Engineer: ${team[i].name}
-            </div>
-            <ul class="list-group list-group-flush">
-            <li class="list-group-item">ID: ${team[i].id}</li>
-            <li class="list-group-item">Email: ${team[i].email}</li>
-            <li class="list-group-item">Role: ${team[i].role}</li>
-            <li class="list-group-item">Github: ${team[i].github}</li>
-            </ul>
-            </div>`;
-      engineergroup += engineercard;
+      engineergroup += ec(team[i]);
     } else if (team[i].role === "Intern") {
-      let interncard = `<div class="card" style="width: 18rem;">
-            <div class="card-header">
-            Intern: ${team[i].name}
-            </div>
-            <ul class="list-group list-group-flush">
-            <li class="list-group-item">ID: ${team[i].id}</li>
-            <li class="list-group-item">Email: ${team[i].email}</li>
-            <li class="list-group-item">Role: ${team[i].role}</li>
-            <li class="list-group-item">School: ${team[i].school}</li>
-            </ul>
-            </div>`;
-      interngroup += interncard;
+      interngroup += ic(team[i]);
     }
   }
-
-  let htmldoc = `<!DOCTYPE html>
-    <html lang="en">
-    
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-        <title>YOUR TEAM</title>
-    </head>
-    
-    <body>
-        <div class="container">
-        <div class="row">
-                <div class="col-xs-12">
-                <h1>YOUR TEAM:</h1>
-            </div>
-            </div>
-            <div class="row">
-                <div class="card" style="width: 18rem;">
-                    <div class="card-header">
-                        Manager: ${team[0].name}
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">ID: ${team[0].id}</li>
-                        <li class="list-group-item">Email: ${team[0].email}</li>
-                        <li class="list-group-item">Role: ${team[0].role}</li>
-                        <li class="list-group-item">Office: ${team[0].office}</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="container">
-        <div class="row">
-                        <div class="col-xs-12">
-                        <h2>Engineers:</h2>
-                    </div>
-                    </div>
-            <div class="row" id="engineerrow">
-            ${engineergroup}
-            </div>
-        </div>
-
-
-        <div class="container">
-        <div class="row">
-                        <div class="col-xs-12">
-                        <h2>Interns:</h2>
-                    </div>
-                    </div>
-            <div class="row" id="internrow">
-            ${interngroup}
-            </div>
-        </div>
-
-
-        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-            crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-            crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-            crossorigin="anonymous"></script>
-    </body>
-    </html>`;
-
-  return htmldoc;
+  return bp(team, engineergroup, interngroup);
 }
+
 
 function printTeam() {
   fs.writeFile("./output/teamsheet.html", compilePage(), function(err) {
@@ -229,7 +108,7 @@ function printTeam() {
   });
 }
 
-function getRole() {
+function getRole(newemployee) {
   inquirer
     .prompt([
       {
@@ -241,14 +120,14 @@ function getRole() {
     ])
     .then(function(answers) {
       if (answers.role === "Engineer") {
-        getEngineer();
+        getEngineer(newemployee);
       } else if (answers.role === "Intern") {
-        getIntern();
+        getIntern(newemployee);
       }
     });
 }
 
-function initMananger() {
+function buildEmployee() {
   inquirer
     .prompt([
       {
@@ -265,7 +144,29 @@ function initMananger() {
         type: "input",
         name: "email",
         message: "Enter your email: "
-      },
+      }
+    ])
+    .then(function(answers) {
+      const newemployee = {
+        name: answers.name,
+        id: answers.id,
+        email: answers.email,
+      };
+      if (firstbuild === true) {
+        firstbuild = false;
+        initMananger(newemployee);
+      } else {
+      getRole(newemployee);
+    }
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
+}
+
+function initMananger(employee) {
+  inquirer
+    .prompt([
       {
         type: "input",
         name: "officeNumber",
@@ -273,20 +174,19 @@ function initMananger() {
       }
     ])
     .then(function(answers) {
-      console.log(answers);
       const newmanager = new Manager(
-        answers.name,
-        answers.id,
-        answers.email,
+        employee.name,
+        employee.id,
+        employee.email,
         answers.officeNumber
       );
       team.push(newmanager);
-      console.log("Let's build your team!");
-      getRole();
+      // buildEmployee();
+      repeatQuery();
     })
     .catch(function(error) {
       console.log(error);
     });
 }
 
-initMananger();
+buildEmployee();

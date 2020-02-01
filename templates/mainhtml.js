@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+function buildpage(team, engineergroup,  interngroup) {
+return `<!DOCTYPE html>
     <html lang="en">
     
     <head>
@@ -20,13 +21,13 @@
             <div class="row">
                 <div class="card" style="width: 18rem;">
                     <div class="card-header">
-                        Manager: mkw
+                        Manager: ${team[0].name}
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">ID: mkw</li>
-                        <li class="list-group-item">Email: mkw</li>
-                        <li class="list-group-item">Role: Manager</li>
-                        <li class="list-group-item">Office: undefined</li>
+                        <li class="list-group-item">ID: ${team[0].id}</li>
+                        <li class="list-group-item">Email: ${team[0].email}</li>
+                        <li class="list-group-item">Role: ${team[0].role}</li>
+                        <li class="list-group-item">Office: ${team[0].office}</li>
                     </ul>
                 </div>
             </div>
@@ -40,27 +41,7 @@
                     </div>
                     </div>
             <div class="row" id="engineerrow">
-            <div class="card" style="width: 18rem;">
-    <div class="card-header">
-    Engineer: zaq
-    </div>
-    <ul class="list-group list-group-flush">
-    <li class="list-group-item">ID: zaq</li>
-    <li class="list-group-item">Email: zaq</li>
-    <li class="list-group-item">Role: Engineer</li>
-    <li class="list-group-item">Github: zaq</li>
-    </ul>
-    </div><div class="card" style="width: 18rem;">
-    <div class="card-header">
-    Engineer: kyle
-    </div>
-    <ul class="list-group list-group-flush">
-    <li class="list-group-item">ID: kyle</li>
-    <li class="list-group-item">Email: kyle</li>
-    <li class="list-group-item">Role: Engineer</li>
-    <li class="list-group-item">Github: kyle</li>
-    </ul>
-    </div>
+            ${engineergroup}
             </div>
         </div>
 
@@ -72,17 +53,7 @@
                     </div>
                     </div>
             <div class="row" id="internrow">
-            <div class="card" style="width: 18rem;">
-            <div class="card-header">
-            Intern: rosy
-            </div>
-            <ul class="list-group list-group-flush">
-            <li class="list-group-item">ID: rosy</li>
-            <li class="list-group-item">Email: rosy</li>
-            <li class="list-group-item">Role: Intern</li>
-            <li class="list-group-item">School: Intern</li>
-            </ul>
-            </div>
+            ${interngroup}
             </div>
         </div>
 
@@ -97,4 +68,6 @@
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
             crossorigin="anonymous"></script>
     </body>
-    </html>
+    </html>`;
+}
+module.exports = buildpage;
